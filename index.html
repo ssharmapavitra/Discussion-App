@@ -25,7 +25,7 @@
 				</div>
 
 				<div class="qlist" id="qlist">
-					<!-- <div id="qid0" class="quest">
+					<!-- <div id="qid0" class="quest" onclick="onResolve(1)">
 						<h2 id="subid0" class="sub">Sample 1</h2>
 						<p id="pid0" class="qpara">This is a sample Question asked</p>
 					</div>
@@ -39,7 +39,7 @@
 					</div> -->
 				</div>
 			</div>
-			<div class="enter">
+			<div class="enter" id="enter">
 				<h1>Welcome to Discussion Portal</h1>
 				<p>Enter a subject and question to get started</p>
 
@@ -49,11 +49,51 @@
 						name="subject"
 						id="subject"
 						placeholder="Subject"
+						class="title"
 					/>
-					<textarea name="question" id="qtext" cols="30" rows="10"></textarea>
-					<button class="btn" name="submit" id="submit" value="Submit">
+					<textarea
+						name="question"
+						id="qtext"
+						cols="30"
+						rows="10"
+						class="textResponse"
+					></textarea>
+					<button class="btn shr" name="submit" id="submit" value="Submit">
 						Submit
 					</button>
+				</div>
+			</div>
+
+			<!-- This is Resolve Form  -->
+			<div class="resolve" id="resolve">
+				<div class="ques">
+					<h4>Question</h4>
+					<div class="selectedQ" id="selectedQ"></div>
+					<button class="btn shr" name="submit" id="resolve" value="Submit">
+						Resolve
+					</button>
+				</div>
+				<div class="res">
+					<h4>Response</h4>
+					<div class="responseFrom">
+						<input
+							type="text"
+							name="name"
+							id="name"
+							placeholder="Enter your name"
+							class="title"
+						/>
+						<textarea
+							name="comment"
+							id="comment"
+							cols="30"
+							rows="10"
+							class="textResponse"
+						></textarea>
+						<button class="btn shr" name="submit" id="rSubmit" value="Submit">
+							Submit
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

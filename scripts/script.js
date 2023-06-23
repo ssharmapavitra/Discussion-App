@@ -3,6 +3,9 @@ const subject = document.getElementById("subject");
 const qtext = document.getElementById("qtext");
 const subBtn = document.getElementById("submit");
 const qlist = document.getElementById("qlist");
+const enter = document.getElementById("enter");
+const resolve = document.getElementById("resolve");
+const selectedQ = document.getElementById("selectedQ");
 
 //Variables
 var id = 0;
@@ -30,6 +33,7 @@ function addNewQuestion(sub, question) {
 	let newList = document.createElement("div");
 	newList.setAttribute("id", `qid${id}`);
 	newList.setAttribute("class", "quest");
+	newList.setAttribute("onclick", `onResolve(${id})`);
 
 	//Create Subject header
 	let subhead = document.createElement("h2");
@@ -67,3 +71,16 @@ function load() {
 		addNewQuestion(obj.subject, obj.question);
 	}
 }
+
+//Resolve
+function onResolve(qid) {
+	enter.style.display = "none";
+	resolve.style.display = "flex";
+
+	let question = document.getElementById(`qid${qid}`).cloneNode(true);
+	question.style.border = "0px";
+	selectedQ.innerHTML = "";
+	selectedQ.appendChild(question);
+}
+
+// localStorage.clear();

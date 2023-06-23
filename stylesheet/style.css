@@ -59,6 +59,7 @@ header {
 	margin-top: 0.8rem;
 	border-bottom: 1px solid black;
 	padding-bottom: 1rem;
+	cursor: pointer;
 }
 .sub {
 	margin-bottom: 0.2rem;
@@ -80,7 +81,7 @@ header {
 	display: flex;
 	flex-direction: column;
 }
-#subject {
+.title {
 	margin: 2rem;
 	margin-left: 0;
 	margin-bottom: 0.2rem;
@@ -88,14 +89,29 @@ header {
 	width: 40%;
 	height: 1.8rem;
 }
-#qtext {
+.textResponse {
 	margin: 1rem;
 	margin-left: 0;
 	border-radius: 4px;
 	resize: none;
 }
-#submit {
+.shr {
 	width: 20%;
+}
+
+/* Response Form  */
+.resolve {
+	width: 70%;
+	display: none;
+	padding: 2rem;
+	flex-direction: column;
+}
+.responseFrom {
+	display: flex;
+	flex-direction: column;
+}
+#resolve {
+	float: right;
 }
 
 /* Button */
