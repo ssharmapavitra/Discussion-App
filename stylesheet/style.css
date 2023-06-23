@@ -1,0 +1,111 @@
+* {
+	margin: 0px;
+	box-sizing: border-box;
+}
+
+/* Header */
+header {
+	background-color: #008e9b;
+	color: #fff;
+	text-align: left;
+	padding: 1rem;
+	display: block;
+}
+
+/* Container  */
+.container {
+	display: flex;
+}
+
+/* Display box */
+.display {
+	margin: 0;
+	width: 30%;
+	padding: 1rem;
+	align-content: right;
+	background-color: aliceblue;
+	height: 90vh;
+}
+.search {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+}
+.search button {
+	height: 2.5rem;
+}
+#search {
+	margin: 0.5rem 0rem;
+	border-radius: 4px;
+	height: 1.8rem;
+	flex-wrap: wrap;
+	appearance: auto;
+}
+@media (max-width: 660px) {
+	#search {
+		width: 100%;
+	}
+}
+
+/* Question List */
+.qlist {
+	background-color: rgb(205, 226, 243);
+	height: 80vh;
+	padding: 1rem;
+}
+
+.quest {
+	margin-top: 0.8rem;
+	border-bottom: 1px solid black;
+	padding-bottom: 1rem;
+}
+.sub {
+	margin-bottom: 0.2rem;
+	font-size: 1.2rem;
+}
+.qpara {
+	font-weight: 1;
+	font-size: 0.8rem;
+}
+
+/* Question box */
+.enter {
+	width: 70%;
+	display: flex;
+	padding: 2rem;
+	flex-direction: column;
+}
+.input {
+	display: flex;
+	flex-direction: column;
+}
+#subject {
+	margin: 2rem;
+	margin-left: 0;
+	margin-bottom: 0.2rem;
+	border-radius: 4px;
+	width: 40%;
+	height: 1.8rem;
+}
+#qtext {
+	margin: 1rem;
+	margin-left: 0;
+	border-radius: 4px;
+	resize: none;
+}
+#submit {
+	width: 20%;
+}
+
+/* Button */
+.btn {
+	background-color: #008e9b;
+	color: #fff;
+	padding: 0.5rem;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+	margin-right: 1rem;
+}
