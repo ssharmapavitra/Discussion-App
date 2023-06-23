@@ -51,7 +51,7 @@ header {
 /* Question List */
 .qlist {
 	background-color: rgb(205, 226, 243);
-	height: 80vh;
+	height: 70vh;
 	padding: 1rem;
 }
 
@@ -112,6 +112,14 @@ header {
 }
 #resolve {
 	float: right;
+}
+
+/*Response Table*/
+.rtable {
+	width: 70%;
+	display: flex;
+	padding: 2rem;
+	flex-direction: column;
 }
 
 /* Button */
