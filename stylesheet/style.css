@@ -116,10 +116,44 @@ header {
 
 /*Response Table*/
 .rtable {
-	width: 70%;
+	width: 80%;
 	display: flex;
 	padding: 2rem;
 	flex-direction: column;
+	border: 2px solid red;
+}
+.row {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	padding: 1rem;
+	border: #cae9eb 1px solid;
+}
+.response {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 50%;
+}
+.upvote img {
+	height: 2rem;
+	width: 2rem;
+}
+.downvote img {
+	height: 2rem;
+	width: 2rem;
+}
+.fav img {
+	height: 2rem;
+	width: 2rem;
+}
+.upvote,
+.downvote,
+.fav {
+	background-color: transparent;
+	border: none;
+	cursor: pointer;
+	margin-left: 1rem;
 }
 
 /* Button */

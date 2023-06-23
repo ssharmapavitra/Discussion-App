@@ -10,6 +10,14 @@ const commentBtn = document.getElementById("rSubmit");
 const nameIp = document.getElementById("name");
 const comment = document.getElementById("comment");
 
+//Images
+const upicon = document.createElement("img");
+upicon.setAttribute("src", "./img/upvote.png");
+const downicon = document.createElement("img");
+downicon.setAttribute("src", "./img/downvote.png");
+const favicon = document.createElement("img");
+favicon.setAttribute("src", "./img/fav.png");
+
 //Variables
 var id = 0;
 let cid = 1;
@@ -108,6 +116,10 @@ function addResponse(qid) {
 	let resp = document.getElementById("table");
 
 	for (let i = 0; i < obj.responses.length; i++) {
+		//Row
+		let row = document.createElement("div");
+		row.setAttribute("class", "row");
+
 		//Div for response and name
 		let div = document.createElement("div");
 		div.setAttribute("class", "response");
@@ -121,29 +133,37 @@ function addResponse(qid) {
 		let response = document.createElement("p");
 		response.innerText = obj.responses[i].response;
 		div.appendChild(response);
+		row.appendChild(div);
 
-		//response
-		let row = document.createElement("tr");
-		let respon = document.createElement("td");
-		respon.appendChild(div);
-		row.appendChild(respon);
+		//Score
+		let score = document.createElement("p");
+		score.innerText = `Score: ${obj.responses[i].upvote}`;
+		row.appendChild(score);
 
-		//upvote
-		let upvote = document.createElement("td");
-		upvote.innerText = obj.responses[i].upvote;
+		//Upvote
+		let upvote = document.createElement("button");
+		upvote.setAttribute("class", "upvote");
+		upvote.setAttribute("onclick", `onUpvote(${qid}, ${i})`);
+		let upi = upicon.cloneNode(true);
+		upvote.appendChild(upi);
 		row.appendChild(upvote);
 
-		//downvote
-		let downvote = document.createElement("td");
-		downvote.innerText = obj.responses[i].favorite;
+		//Downvote
+		let downvote = document.createElement("button");
+		downvote.setAttribute("class", "downvote");
+		downvote.setAttribute("onclick", `onDownvote(${qid}, ${i})`);
+		let downi = downicon.cloneNode(true);
+		downvote.appendChild(downi);
 		row.appendChild(downvote);
 
-		//favorite
-		let favorite = document.createElement("td");
-		favorite.innerText = obj.responses[i].favorite;
-		row.appendChild(favorite);
+		//Favorite
+		let fav = document.createElement("button");
+		fav.setAttribute("class", "fav");
+		fav.setAttribute("onclick", `onFav(${qid}, ${i})`);
+		let favi = favicon.cloneNode(true);
+		fav.appendChild(favi);
+		row.appendChild(fav);
 
-		//appending row
 		resp.appendChild(row);
 	}
 }
@@ -170,6 +190,12 @@ function onComment(cid) {
 	localStorage.setItem(id, obj);
 
 	onResolve(cid);
+}
+
+//Display question form
+function displayQForm() {
+	enter.style.display = "flex";
+	resolve.style.display = "none";
 }
 
 localStorage.clear();
