@@ -228,6 +228,24 @@ function displayQForm() {
 	resolve.style.display = "none";
 }
 
+//Search bar
+function search() {
+	let search = document.getElementById("search").value;
+	search = search.toLowerCase();
+	let q = document.getElementsByClassName("quest");
+	for (let i = 0; i < q.length; i++) {
+		let sub = document.getElementById(`subid${i + 1}`).innerText;
+		sub = sub.toLowerCase();
+		let ques = document.getElementById(`pid${i + 1}`).innerText;
+		ques = ques.toLowerCase();
+		if (sub.includes(search) || ques.includes(search)) {
+			q[i].style.display = "flex";
+		} else {
+			q[i].style.display = "none";
+		}
+	}
+}
+
 // localStorage.clear();
 
 /*

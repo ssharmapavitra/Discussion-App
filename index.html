@@ -23,6 +23,8 @@
 						name="search"
 						id="search"
 						placeholder="Search questions"
+						class="searchBar"
+						onkeyup="search()"
 					/>
 				</div>
 
@@ -71,7 +73,12 @@
 				<div class="ques">
 					<h4>Question</h4>
 					<div class="selectedQ" id="selectedQ"></div>
-					<button class="btn shr res" name="submit" id="resolveBtn" value="Submit">
+					<button
+						class="btn shr res"
+						name="submit"
+						id="resolveBtn"
+						value="Submit"
+					>
 						Resolve
 					</button>
 				</div>
