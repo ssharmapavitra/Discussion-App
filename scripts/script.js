@@ -57,7 +57,7 @@ function load() {
 //Interval to load page again
 const timeOut = setInterval(() => {
 	load();
-}, 10000);
+}, 1000);
 
 //Add Question
 subBtn.addEventListener("click", () => {
