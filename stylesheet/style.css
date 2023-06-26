@@ -20,12 +20,13 @@ header {
 
 /* Display box */
 .display {
+	display: inline-block;
 	margin: 0;
 	width: 30%;
 	padding: 1rem;
 	align-content: right;
 	background-color: aliceblue;
-	height: 90vh;
+	height: 100%;
 }
 .search {
 	display: flex;
@@ -43,16 +44,38 @@ header {
 	flex-wrap: wrap;
 	appearance: auto;
 }
-@media (max-width: 660px) {
-	#search {
+
+@media (max-width: 600px) {
+	.container {
+		flex-direction: column;
+	}
+	.display {
 		width: 100%;
+	}
+	.enter {
+		width: 100%;
+	}
+	.responseFrom {
+		width: 100%;
+	}
+	#search {
+		width: 20%;
+	}
+	.subDiv {
+		width: 100%;
+		word-break: break-all;
+		flex-direction: column;
+	}
+	.favQ {
+		float: left;
+		/* border: 2px solid yellow; */
 	}
 }
 
 /* Question List */
 .qlist {
 	background-color: rgb(205, 226, 243);
-	height: 80%;
+	height: 100%;
 	padding: 1rem;
 }
 
@@ -64,15 +87,43 @@ header {
 	display: flex;
 	flex-direction: column;
 }
+
+.subDiv {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	/* border: 2px solid red; */
+}
 .sub {
 	margin-bottom: 0.2rem;
 	font-size: 1.2rem;
+	/* border: 2px solid green; */
+	float: left;
+}
+
+.favQ {
+	float: right;
+	/* border: 2px solid yellow; */
+}
+
+.qDiv {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }
 .qpara {
 	font-weight: 1;
 	font-size: 0.8rem;
 }
-
+.time {
+	margin-left: 0.2rem;
+	float: right;
+	align-items: end;
+	justify-content: end;
+	color: #6e797a;
+}
 /* Question box */
 .enter {
 	width: 70%;

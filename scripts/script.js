@@ -31,24 +31,46 @@ function load() {
 	// resolve.style.display = "flex";
 	let size = localStorage.getItem(0);
 	id = size;
+	let list = [];
 	for (let i = 1; i <= size; i++) {
 		let obj = localStorage.getItem(i);
 		if (obj) {
 			obj = JSON.parse(obj);
-			addQuestion(obj.subject, obj.question, i);
+			list.push(obj);
 		}
+	}
+	list = qSort(list);
+	qlist.innerHTML = "";
+	for (let i = 0; i < list.length; i++) {
+		addQuestion(
+			list[i].subject,
+			list[i].question,
+			list[i].id,
+			list[i].upvote,
+			list[i].downvote,
+			list[i].favorite,
+			list[i].time
+		);
 	}
 }
 
+//Interval to load page again
+const timeOut = setInterval(() => {
+	load();
+}, 10000);
+
 //Add Question
 subBtn.addEventListener("click", () => {
-	if (subject.value == "" || qtext.value == "") {
+	let subV = subject.value;
+	let qtextV = qtext.value;
+	subV = subV.trim();
+	qtextV = qtextV.trim();
+
+	if (subV == "" || qtextV == "") {
 		return;
 	}
 
-	let sub = subject.value;
-	let question = qtext.value;
-	addNewQuestion(sub, question);
+	addNewQuestion(subV, qtextV);
 	subject.value = "";
 	qtext.value = "";
 });
@@ -56,42 +78,182 @@ subBtn.addEventListener("click", () => {
 //add new question to list
 function addNewQuestion(sub, question) {
 	id++;
-	addQuestion(sub, question, id);
+	addQuestion(sub, question, id, 0, 0, false);
 	addToStorage(id, sub, question);
 }
 
 //add question to HTML
-function addQuestion(sub, question, id) {
+function addQuestion(sub, question, id, upvotec, downvotec, favor, timeC) {
 	//Create div
 	let newList = document.createElement("div");
 	newList.setAttribute("id", `qid${id}`);
 	newList.setAttribute("class", "quest");
 	newList.setAttribute("onclick", `onResolve(${id})`);
 
+	//Create Subject Div
+	let subDiv = document.createElement("div");
+	subDiv.setAttribute("class", "subDiv");
+
+	//Create Question Div
+	let qDiv = document.createElement("div");
+	qDiv.setAttribute("class", "qDiv");
+
 	//Create Subject header
 	let subhead = document.createElement("h2");
 	subhead.setAttribute("id", `subid${id}`);
 	subhead.setAttribute("class", "sub");
 	subhead.innerText = sub;
+	subDiv.appendChild(subhead);
 
 	//Create question text
 	let newq = document.createElement("p");
 	newq.setAttribute("id", `pid${id}`);
 	newq.setAttribute("class", "qpara");
 	newq.innerText = question;
+	qDiv.appendChild(newq);
+
+	//div for upvote, downvote and fav
+	let updown = document.createElement("div");
+	updown.setAttribute("class", "favQ");
+
+	//Create upvote button
+	let upvote = document.createElement("button");
+	upvote.setAttribute("class", "upvote");
+	upvote.setAttribute("onclick", `onUpvoteQ(${id})`);
+	let upi = upicon.cloneNode(true);
+	upvote.appendChild(upi);
+	//adding upvote count
+	let upvotecount = document.createElement("p");
+	upvotecount.setAttribute("class", "upvotecount");
+	upvotecount.setAttribute("id", `upvotecount${id}`);
+	upvotecount.innerText = upvotec;
+	upvote.appendChild(upvotecount);
+
+	//Create downvote button
+	let downvote = document.createElement("button");
+	downvote.setAttribute("class", "downvote");
+	downvote.setAttribute("onclick", `onDownvoteQ(${id})`);
+	let downi = downicon.cloneNode(true);
+	downvote.appendChild(downi);
+	//adding downvote count
+	let downvotecount = document.createElement("p");
+	downvotecount.setAttribute("class", "downvotecount");
+	downvotecount.setAttribute("id", `downvotecount${id}`);
+	downvotecount.innerText = downvotec;
+	downvote.appendChild(downvotecount);
+
+	//Adding fav button
+	let fav = document.createElement("button");
+	if (favor) {
+		fav.setAttribute("class", "fav favSelected");
+	} else fav.setAttribute("class", "fav");
+	fav.setAttribute("id", `fav${id}`);
+	fav.setAttribute("onclick", `onQFav(${id})`);
+	let favi = favicon.cloneNode(true);
+	fav.appendChild(favi);
+
+	//Adding time of question
+	let time = document.createElement("p");
+	time.setAttribute("class", "time");
+	time.setAttribute("id", `time${id}`);
+	time.innerText = getTime(timeC);
+	qDiv.appendChild(time);
+
+	//appending upvote, downvote and fav
+	updown.appendChild(upvote);
+	updown.appendChild(downvote);
+	updown.appendChild(fav);
 
 	//appending child
-	newList.appendChild(subhead);
-	newList.appendChild(newq);
+	subDiv.appendChild(updown);
+	newList.appendChild(subDiv);
+	newList.appendChild(qDiv);
 	qlist.appendChild(newList);
 }
 
 //add subject and question to local Storage
 function addToStorage(id, sub, question) {
-	let obj = { subject: sub, question: question, responses: [] };
+	let obj = {
+		id: id,
+		subject: sub,
+		question: question,
+		upvote: 0,
+		downvote: 0,
+		score: 0,
+		time: new Date(),
+		favorite: false,
+		responses: [],
+	};
 	obj = JSON.stringify(obj);
 	localStorage.setItem(id, obj);
 	localStorage.setItem(0, id);
+}
+
+//On Question Favoutite
+function onQFav(qid) {
+	let fav = document.getElementById(`fav${qid}`);
+	let obj = localStorage.getItem(qid);
+	obj = JSON.parse(obj);
+	if (obj.favorite) {
+		obj.favorite = false;
+		fav.setAttribute("class", "fav favQ");
+	} else {
+		obj.favorite = true;
+		fav.setAttribute("class", "fav favQ favSelected");
+	}
+	obj = JSON.stringify(obj);
+	localStorage.setItem(qid, obj);
+	load();
+}
+
+//On Upvote Question
+function onUpvoteQ(qid) {
+	let obj = localStorage.getItem(qid);
+	obj = JSON.parse(obj);
+	obj.upvote++;
+	obj.score++;
+	obj = JSON.stringify(obj);
+	localStorage.setItem(qid, obj);
+	load();
+}
+
+//On Downvote Question
+function onDownvoteQ(qid) {
+	let obj = localStorage.getItem(qid);
+	obj = JSON.parse(obj);
+	obj.downvote++;
+	obj.score--;
+	obj = JSON.stringify(obj);
+	localStorage.setItem(qid, obj);
+	load();
+}
+
+//Get time
+function getTime(time) {
+	let date = new Date(time);
+	let now = new Date();
+	let diff = now - date;
+	let sec = Math.floor(diff / 1000);
+	let min = Math.floor(sec / 60);
+	let hour = Math.floor(min / 60);
+	let day = Math.floor(hour / 24);
+	let month = Math.floor(day / 30);
+	let year = Math.floor(month / 12);
+	if (year > 0) {
+		return `${year} year ago`;
+	} else if (month > 0) {
+		return `${month} month ago`;
+	} else if (day > 0) {
+		return `${day} day ago`;
+	} else if (hour > 0) {
+		return `${hour} hour ago`;
+	} else if (min > 0) {
+		return `${min} min ago`;
+	} else if (sec > 0) {
+		return `${sec} sec ago`;
+	} else {
+		return `Just now`;
+	}
 }
 
 //Resolve
@@ -159,12 +321,6 @@ function addResponse(qid) {
 		div.appendChild(response);
 		row.appendChild(div);
 
-		//Score
-		let score = document.createElement("p");
-		score.setAttribute("class", "score");
-		score.innerText = `Score: ${obj.responses[i].upvote}`;
-		row.appendChild(score);
-
 		//Div for upvote, downvote and fav
 		let div2 = document.createElement("div");
 		div2.setAttribute("class", "buttonsWrapper");
@@ -175,6 +331,11 @@ function addResponse(qid) {
 		upvote.setAttribute("onclick", `onUpvote(${qid}, ${i})`);
 		let upi = upicon.cloneNode(true);
 		upvote.appendChild(upi);
+		//add upvote count
+		let upcount = document.createElement("p");
+		upcount.setAttribute("class", "upcount");
+		upcount.innerText = obj.responses[i].upvote;
+		upvote.appendChild(upcount);
 		div2.appendChild(upvote);
 
 		//Downvote
@@ -183,6 +344,11 @@ function addResponse(qid) {
 		downvote.setAttribute("onclick", `onDownvote(${qid}, ${i})`);
 		let downi = downicon.cloneNode(true);
 		downvote.appendChild(downi);
+		//add downvote count
+		let downcount = document.createElement("p");
+		downcount.setAttribute("class", "downcount");
+		downcount.innerText = obj.responses[i].downvote;
+		downvote.appendChild(downcount);
 		div2.appendChild(downvote);
 
 		//Favorite
@@ -208,14 +374,21 @@ function onComment(cid) {
 	obj = JSON.parse(obj);
 	let response = {};
 
+	let nameV = nameIp.value;
+	let commentV = comment.value;
+	nameV = nameV.trim();
+	commentV = commentV.trim();
+
 	//getting values from boxes
-	if (nameIp.value == "" || comment.value == "") {
+	if (nameV == "" || commentV == "") {
 		alert("Please Enter a value");
 		return;
 	}
 
-	response.name = nameIp.value;
-	response.response = comment.value;
+	response.name = nameV;
+	response.response = commentV;
+	response.score = 0;
+	response.downvote = 0;
 	response.upvote = 0;
 	response.favorite = false;
 	obj.responses.push(response);
@@ -224,6 +397,9 @@ function onComment(cid) {
 	localStorage.setItem(cid, obj);
 
 	onResolve(cid);
+	//clear values
+	nameIp.value = "";
+	comment.value = "";
 }
 
 //Display question form
@@ -269,6 +445,7 @@ function search() {
 function onUpvote(qid, rid) {
 	let obj = localStorage.getItem(qid);
 	obj = JSON.parse(obj);
+	obj.responses[rid].score++;
 	obj.responses[rid].upvote++;
 	obj = rSort(obj);
 	obj = JSON.stringify(obj);
@@ -280,7 +457,8 @@ function onUpvote(qid, rid) {
 function onDownvote(qid, rid) {
 	let obj = localStorage.getItem(qid);
 	obj = JSON.parse(obj);
-	obj.responses[rid].upvote--;
+	obj.responses[rid].score--;
+	obj.responses[rid].downvote++;
 	obj = rSort(obj);
 	obj = JSON.stringify(obj);
 	localStorage.setItem(qid, obj);
@@ -306,9 +484,9 @@ function rSort(obj) {
 			return -1;
 		} else if (!a.favorite && b.favorite) {
 			return 1;
-		} else if (a.upvote > b.upvote) {
+		} else if (a.score > b.score) {
 			return -1;
-		} else if (a.upvote < b.upvote) {
+		} else if (a.score < b.score) {
 			return 1;
 		} else {
 			return 0;
@@ -318,19 +496,46 @@ function rSort(obj) {
 	return obj;
 }
 
+//Sorting the questions
+function qSort(obj) {
+	//sorting responses according to fav
+	obj.sort((a, b) => {
+		if (a.favorite && !b.favorite) {
+			return -1;
+		} else if (!a.favorite && b.favorite) {
+			return 1;
+		} else if (a.score > b.score) {
+			return -1;
+		} else if (a.score < b.score) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
+
+	return obj;
+}
+
+//Clearing local storage
 // localStorage.clear();
 
 /*
 Schema
 {
  id: {
+	id: " ",
 	sub: " ",
 	question : " ".
+	upvote : " ",
+	favorite: " ",
+	time : " ",
 	responses :[
 		{ 
 			name: " ",
 			response: " ",
 			upvote : " ",
+			downvote : " ",
+			score : " ",
 			favorite: " ",
 		}.....{}
 	]
