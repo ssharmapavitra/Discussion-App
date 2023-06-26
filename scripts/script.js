@@ -80,6 +80,8 @@ function addToStorage(id, sub, question) {
 }
 
 function load() {
+	// enter.style.display = "none";
+	// resolve.style.display = "flex";
 	let size = localStorage.getItem(0);
 	for (let i = 1; i <= size; i++) {
 		let obj = localStorage.getItem(i);
@@ -137,8 +139,13 @@ function addResponse(qid) {
 
 		//Score
 		let score = document.createElement("p");
+		score.setAttribute("class", "score");
 		score.innerText = `Score: ${obj.responses[i].upvote}`;
 		row.appendChild(score);
+
+		//Div for upvote, downvote and fav
+		let div2 = document.createElement("div");
+		div2.setAttribute("class", "buttonsWrapper");
 
 		//Upvote
 		let upvote = document.createElement("button");
@@ -146,7 +153,7 @@ function addResponse(qid) {
 		upvote.setAttribute("onclick", `onUpvote(${qid}, ${i})`);
 		let upi = upicon.cloneNode(true);
 		upvote.appendChild(upi);
-		row.appendChild(upvote);
+		div2.appendChild(upvote);
 
 		//Downvote
 		let downvote = document.createElement("button");
@@ -154,7 +161,7 @@ function addResponse(qid) {
 		downvote.setAttribute("onclick", `onDownvote(${qid}, ${i})`);
 		let downi = downicon.cloneNode(true);
 		downvote.appendChild(downi);
-		row.appendChild(downvote);
+		div2.appendChild(downvote);
 
 		//Favorite
 		let fav = document.createElement("button");
@@ -162,8 +169,9 @@ function addResponse(qid) {
 		fav.setAttribute("onclick", `onFav(${qid}, ${i})`);
 		let favi = favicon.cloneNode(true);
 		fav.appendChild(favi);
-		row.appendChild(fav);
+		div2.appendChild(fav);
 
+		row.appendChild(div2);
 		resp.appendChild(row);
 	}
 }

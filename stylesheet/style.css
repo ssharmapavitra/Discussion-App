@@ -51,7 +51,7 @@ header {
 /* Question List */
 .qlist {
 	background-color: rgb(205, 226, 243);
-	height: 70vh;
+	height: 80%;
 	padding: 1rem;
 }
 
@@ -118,22 +118,38 @@ header {
 .rtable {
 	width: 80%;
 	display: flex;
-	padding: 2rem;
+	padding: 0.5rem;
 	flex-direction: column;
-	border: 2px solid red;
 }
 .row {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	padding: 1rem;
-	border: #cae9eb 1px solid;
+	border: #cae9eb 0.5px solid;
+}
+@media (max-width: 950px) {
+	/* .row {
+		flex-direction: column;
+	} */
+	.response p {
+		overflow-wrap: break-word;
+	}
 }
 .response {
 	display: flex;
 	flex-direction: column;
 	flex-wrap: wrap;
 	width: 50%;
+}
+.response p {
+	overflow-wrap: break-word;
+}
+.score {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 20%;
 }
 .upvote img {
 	height: 2rem;
@@ -144,8 +160,8 @@ header {
 	width: 2rem;
 }
 .fav img {
-	height: 2rem;
-	width: 2rem;
+	height: 1.5rem;
+	width: 1.5rem;
 }
 .upvote,
 .downvote,
