@@ -19,11 +19,26 @@ const favicon = document.createElement("img");
 favicon.setAttribute("src", "./img/fav.png");
 
 //Variables
-var id = 0;
+let id = 0;
 let cid = 1;
 
 subject.value = "Sample 1";
 qtext.value = "This is a sample Question asked";
+
+//On Load
+function load() {
+	// enter.style.display = "none";
+	// resolve.style.display = "flex";
+	let size = localStorage.getItem(0);
+	id = size;
+	for (let i = 1; i <= size; i++) {
+		let obj = localStorage.getItem(i);
+		if (obj) {
+			obj = JSON.parse(obj);
+			addQuestion(obj.subject, obj.question, i);
+		}
+	}
+}
 
 //Add Question
 subBtn.addEventListener("click", () => {
@@ -40,13 +55,13 @@ subBtn.addEventListener("click", () => {
 
 //add new question to list
 function addNewQuestion(sub, question) {
-	addQuestion(sub, question);
+	id++;
+	addQuestion(sub, question, id);
 	addToStorage(id, sub, question);
 }
 
 //add question to HTML
-function addQuestion(sub, question) {
-	id++;
+function addQuestion(sub, question, id) {
 	//Create div
 	let newList = document.createElement("div");
 	newList.setAttribute("id", `qid${id}`);
@@ -79,17 +94,6 @@ function addToStorage(id, sub, question) {
 	localStorage.setItem(0, id);
 }
 
-function load() {
-	// enter.style.display = "none";
-	// resolve.style.display = "flex";
-	let size = localStorage.getItem(0);
-	for (let i = 1; i <= size; i++) {
-		let obj = localStorage.getItem(i);
-		obj = JSON.parse(obj);
-		addQuestion(obj.subject, obj.question);
-	}
-}
-
 //Resolve
 function onResolve(qid) {
 	enter.style.display = "none";
@@ -112,7 +116,7 @@ function onResolve(qid) {
 	//Response
 	addResponse(qid);
 
-	commentBtn.setAttribute("onclick", `onComment(${id})`);
+	commentBtn.setAttribute("onclick", `onComment(${qid})`);
 }
 
 //Resolve button
@@ -213,7 +217,7 @@ function onComment(cid) {
 	obj.responses.push(response);
 	obj = JSON.stringify(obj);
 	console.log(obj);
-	localStorage.setItem(id, obj);
+	localStorage.setItem(cid, obj);
 
 	onResolve(cid);
 }
@@ -224,7 +228,7 @@ function displayQForm() {
 	resolve.style.display = "none";
 }
 
-localStorage.clear();
+// localStorage.clear();
 
 /*
 Schema
