@@ -243,6 +243,21 @@ function search() {
 		let ques = document.getElementById(`pid${i + 1}`).innerText;
 		ques = ques.toLowerCase();
 		if (sub.includes(search) || ques.includes(search)) {
+			//highlighting searchtext
+			let subIndex = sub.indexOf(search);
+			if (subIndex >= 0) {
+				let subText = sub.substring(subIndex, subIndex + search.length);
+				sub = sub.replace(subText, `<mark>${subText}</mark>`);
+			}
+
+			let quesIndex = ques.indexOf(search);
+			if (quesIndex >= 0) {
+				let quesText = ques.substring(quesIndex, quesIndex + search.length);
+				ques = ques.replace(quesText, `<mark>${quesText}</mark>`);
+			}
+			document.getElementById(`subid${i + 1}`).innerHTML = sub;
+			document.getElementById(`pid${i + 1}`).innerHTML = ques;
+
 			q[i].style.display = "flex";
 		} else {
 			q[i].style.display = "none";
