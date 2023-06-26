@@ -95,6 +95,10 @@ function onResolve(qid) {
 	enter.style.display = "none";
 	resolve.style.display = "flex";
 
+	//change function of resolve button
+	let resolveBtn = document.getElementById("resolveBtn");
+	resolveBtn.setAttribute("onclick", `onResolveBtn(${qid})`);
+
 	//Question
 	let question = document.getElementById(`qid${qid}`).cloneNode(true);
 	question.style.border = "0px";
@@ -109,6 +113,20 @@ function onResolve(qid) {
 	addResponse(qid);
 
 	commentBtn.setAttribute("onclick", `onComment(${id})`);
+}
+
+//Resolve button
+function onResolveBtn(qid) {
+	//removing from local storage
+	localStorage.removeItem(qid);
+
+	//removing from HTML
+	let q = document.getElementById(`qid${qid}`);
+	q.remove();
+
+	//changing display
+	enter.style.display = "flex";
+	resolve.style.display = "none";
 }
 
 //adding response to table
