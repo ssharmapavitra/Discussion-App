@@ -176,6 +176,11 @@ header {
 	margin-left: 1rem;
 }
 
+.favSelected {
+	background-color: #ecf198;
+	border-radius: 50%;
+}
+
 /* Button */
 .btn {
 	background-color: #008e9b;

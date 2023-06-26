@@ -187,7 +187,11 @@ function addResponse(qid) {
 
 		//Favorite
 		let fav = document.createElement("button");
-		fav.setAttribute("class", "fav");
+		//checking if favorite or not
+		if (obj.responses[i].favorite) {
+			fav.setAttribute("class", "fav favSelected");
+		} else fav.setAttribute("class", "fav");
+
 		fav.setAttribute("onclick", `onFav(${qid}, ${i})`);
 		let favi = favicon.cloneNode(true);
 		fav.appendChild(favi);
@@ -244,6 +248,59 @@ function search() {
 			q[i].style.display = "none";
 		}
 	}
+}
+
+//Upvote
+function onUpvote(qid, rid) {
+	let obj = localStorage.getItem(qid);
+	obj = JSON.parse(obj);
+	obj.responses[rid].upvote++;
+	obj = rSort(obj);
+	obj = JSON.stringify(obj);
+	localStorage.setItem(qid, obj);
+	onResolve(qid);
+}
+
+//Downvote
+function onDownvote(qid, rid) {
+	let obj = localStorage.getItem(qid);
+	obj = JSON.parse(obj);
+	obj.responses[rid].upvote--;
+	obj = rSort(obj);
+	obj = JSON.stringify(obj);
+	localStorage.setItem(qid, obj);
+	onResolve(qid);
+}
+
+//Favorite
+function onFav(qid, rid) {
+	let obj = localStorage.getItem(qid);
+	obj = JSON.parse(obj);
+	obj.responses[rid].favorite = !obj.responses[rid].favorite;
+	obj = rSort(obj);
+	obj = JSON.stringify(obj);
+	localStorage.setItem(qid, obj);
+	onResolve(qid);
+}
+
+//Sorting the responses
+function rSort(obj) {
+	//sorting responses according to upvotes and fav
+	obj.responses.sort((a, b) => {
+		if (a.favorite && !b.favorite) {
+			return -1;
+		} else if (!a.favorite && b.favorite) {
+			return 1;
+		} else if (a.upvote > b.upvote) {
+			return -1;
+		} else if (a.upvote < b.upvote) {
+			return 1;
+		} else {
+			return 0;
+		}
+	});
+
+	return obj;
 }
 
 // localStorage.clear();
