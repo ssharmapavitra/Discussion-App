@@ -57,7 +57,7 @@ function load() {
 //Interval to load page again
 const timeOut = setInterval(() => {
 	load();
-}, 1000);
+}, 10000);
 
 //Add Question
 subBtn.addEventListener("click", () => {
@@ -119,7 +119,7 @@ function addQuestion(sub, question, id, upvotec, downvotec, favor, timeC) {
 	//Create upvote button
 	let upvote = document.createElement("button");
 	upvote.setAttribute("class", "upvote");
-	upvote.setAttribute("onclick", `onUpvoteQ(${id})`);
+	upvote.setAttribute("onclick", `onUpvoteQ(${id}); event.stopPropagation()`);
 	let upi = upicon.cloneNode(true);
 	upvote.appendChild(upi);
 	//adding upvote count
@@ -132,7 +132,10 @@ function addQuestion(sub, question, id, upvotec, downvotec, favor, timeC) {
 	//Create downvote button
 	let downvote = document.createElement("button");
 	downvote.setAttribute("class", "downvote");
-	downvote.setAttribute("onclick", `onDownvoteQ(${id})`);
+	downvote.setAttribute(
+		"onclick",
+		`onDownvoteQ(${id}); event.stopPropagation()`
+	);
 	let downi = downicon.cloneNode(true);
 	downvote.appendChild(downi);
 	//adding downvote count
@@ -148,7 +151,7 @@ function addQuestion(sub, question, id, upvotec, downvotec, favor, timeC) {
 		fav.setAttribute("class", "fav favSelected");
 	} else fav.setAttribute("class", "fav");
 	fav.setAttribute("id", `fav${id}`);
-	fav.setAttribute("onclick", `onQFav(${id})`);
+	fav.setAttribute("onclick", `onQFav(${id}); event.stopPropagation()`);
 	let favi = favicon.cloneNode(true);
 	fav.appendChild(favi);
 
